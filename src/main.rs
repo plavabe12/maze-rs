@@ -11,6 +11,7 @@ struct Point {
 extern crate crossterm_input;
 extern crate crossterm_screen;
 use std::process;
+use terminal_size::{Width, Height, terminal_size};
 
 use crossterm_input::{input, InputEvent, KeyEvent, RawScreen};
 
@@ -107,5 +108,24 @@ pub fn read_synchronously() {
 }
 
 fn main() {
+    let size = terminal_size();
+    if let Some((Width(w), Height(h))) = size {
+        let width_terminal = vec!['.'.to_string(); w as usize - 1usize];
+        let print_screen = vec![width_terminal.clone(); h as usize - 1usize];
+        for i in 0..print_screen.len() {
+            for j in 0..print_screen[i].len() {
+                if i == 0 && j == 0 {
+                    print!("/");
+                } else {
+                    print!("{}", print_screen[i][j]);
+                }
+
+            }
+            println!();
+        }
+        //println!("Your terminal is {} cols wide and {} lines tall", w, h);
+    } else {
+        println!("Unable to get terminal size");
+    }
     read_synchronously();
 }

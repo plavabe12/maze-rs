@@ -12,3 +12,4 @@ edition = "2018"
 [dependencies]
 crossterm_input = "0.3.6"
 crossterm_screen = "0.2.3"
+terminal_size = "0.1.8"
