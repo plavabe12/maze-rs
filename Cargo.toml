@@ -10,3 +10,5 @@ authors = ["Ebraheem AlAthari <alathari@pdx.edu>"]
 edition = "2018"
 
 [dependencies]
+crossterm_input = "0.3.6"
+crossterm_screen = "0.2.3"
