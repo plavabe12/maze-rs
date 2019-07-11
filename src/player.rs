@@ -13,14 +13,14 @@ enum Weapons {
     Axe,
     Pickaxe,
 }
-/*
+
 struct Player<'a> {
     name: &'a str,
     weapon_mulitplyer: u8,
     weapon: Weapons,
-}*/
+}
 
 pub fn setup_player() {
-    //let team_player: Player = Player{name: "Test", weapon_mulitplyer: 0, weapon: Weapons::Fists};
-    let weapon: Weapons = Weapons::0;
+    let team_player: Player = Player{name: "Test", weapon_mulitplyer: 0, weapon: Weapons::Fists};
+    println!("{} {} {:?}", team_player.name, team_player.weapon_mulitplyer, team_player.weapon);
 }

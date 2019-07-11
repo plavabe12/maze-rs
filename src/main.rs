@@ -107,6 +107,7 @@ pub fn read_synchronously() {
 }
 
 fn main() {
+    player::setup_player();
     let size = terminal_size();
     if let Some((Width(w), Height(h))) = size {
         let width_terminal = vec!['.'.to_string(); w as usize - 1usize];
@@ -122,10 +123,9 @@ fn main() {
             }
             println!();
         }
-        //println!("Your terminal is {} cols wide and {} lines tall", w, h);
+        println!("Your terminal is {} cols wide and {} lines tall", w, h);
     } else {
         println!("Unable to get terminal size");
     }
     read_synchronously();
-    player::setup_player();
 }
