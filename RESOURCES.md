@@ -6,3 +6,6 @@
 * http://eminence.github.io/terminal-size/doc/terminal_size/index.html
 * https://stackoverflow.com/questions/13212212/creating-two-dimensional-arrays-in-rust
 * https://stackoverflow.com/questions/34684261/how-to-set-a-rust-array-lengthdynamically#34684869
+* https://stackoverflow.com/questions/28024373/is-there-a-way-to-print-enum-values
+* https://stackoverflow.com/questions/25877285/how-to-disable-unused-code-warnings-in-rust#25877389
+* https://stackoverflow.com/questions/26388861/how-to-include-module-from-another-file-from-the-same-project

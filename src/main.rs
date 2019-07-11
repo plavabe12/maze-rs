@@ -8,9 +8,8 @@ struct Point {
     y: u64
 }
 
-extern crate crossterm_input;
-extern crate crossterm_screen;
 use std::process;
+mod player;
 use terminal_size::{Width, Height, terminal_size};
 
 use crossterm_input::{input, InputEvent, KeyEvent, RawScreen};
@@ -128,4 +127,5 @@ fn main() {
         println!("Unable to get terminal size");
     }
     read_synchronously();
+    player::setup_player();
 }
