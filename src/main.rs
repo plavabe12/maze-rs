@@ -2,6 +2,7 @@
 // [This program is licensed under the "MIT License"]
 // Please see the file LICENSE in the source
 // distribution of this software for license terms.
+mod screen;
 
 struct Point {
     x: u64,
@@ -10,7 +11,7 @@ struct Point {
 
 use std::process;
 mod player;
-use terminal_size::{Width, Height, terminal_size};
+
 
 use crossterm_input::{input, InputEvent, KeyEvent, RawScreen};
 
@@ -107,25 +108,7 @@ pub fn read_synchronously() {
 }
 
 fn main() {
-    player::setup_player();
-    let size = terminal_size();
-    if let Some((Width(w), Height(h))) = size {
-        let width_terminal = vec!['.'.to_string(); w as usize - 1usize];
-        let print_screen = vec![width_terminal.clone(); h as usize - 1usize];
-        for i in 0..print_screen.len() {
-            for j in 0..print_screen[i].len() {
-                if i == 0 && j == 0 {
-                    print!("/");
-                } else {
-                    print!("{}", print_screen[i][j]);
-                }
-
-            }
-            println!();
-        }
-        println!("Your terminal is {} cols wide and {} lines tall", w, h);
-    } else {
-        println!("Unable to get terminal size");
-    }
-    read_synchronously();
+    screen::create_game_windows();
+    //player::setup_player();
+    //read_synchronously();
 }
