@@ -108,7 +108,15 @@ pub fn read_synchronously() {
 }
 
 fn main() {
-    screen::create_game_windows();
+    let print_screen: Vec<Vec<String>> = screen::create_game_box();
+
+    for i in 0..print_screen.len() {
+        for j in 0..print_screen[i].len() {
+            print!("{}",print_screen[i][j]);
+        }
+        println!();
+    }
+
     //player::setup_player();
     //read_synchronously();
 }

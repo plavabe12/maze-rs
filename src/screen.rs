@@ -10,34 +10,26 @@ impl TerminalScreen {
         let size = terminal_size();
 
         if let Some((Width(w), Height(h))) = size {
-            self.width = w as usize;
-            self.height = h as usize;
+            self.width = w as usize - 2usize;
+            self.height = h as usize - 2usize;
         }
+    }
+
+    fn build_game_screen(self) -> Vec<Vec<String>> {
+        let terminal_width: Vec<String> = vec!['.'.to_string(); self.width];
+        vec![terminal_width.clone(); self.height]
     }
 }
 
-pub fn create_game_windows() {
+pub fn create_game_box() -> Vec<Vec<String>>  {
     let mut new_terminal: TerminalScreen = TerminalScreen { width: 0, height: 0};
     TerminalScreen::get_terminal_size(&mut new_terminal);
-    println!("Terminal Size is {} {}",new_terminal.width,new_terminal.height);
+    TerminalScreen::build_game_screen(new_terminal)
 }
 
-
-    /*
-    if let Some((Width(w), Height(h))) = size {
-        let width_terminal = vec!['.'.to_string(); w as usize - 1usize];
-        let print_screen = vec![width_terminal.clone(); h as usize - 1usize];
-        for i in 0..print_screen.len() {
-            for j in 0..print_screen[i].len() {
-                if i == 0 && j == 0 {
-                    print!("/");
-                } else {
-                    print!("{}", print_screen[i][j]);
-                }
-
-            }
-            println!();
-        }
-    } else {
-        false
-    }*/
+#[test]
+fn test_vector_creation() {
+    let new_terminal: TerminalScreen = TerminalScreen { width: 10, height: 10};
+    let expected: Vec<Vec<String>> = vec![vec!['.'.to_string();10];10];
+    assert_eq!(expected, TerminalScreen::build_game_screen(new_terminal))
+}

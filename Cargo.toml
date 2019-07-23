@@ -4,7 +4,7 @@
 # distribution of this software for license terms.
 
 [package]
-name = "maze-rs"
+name = "maze_rs"
 version = "0.1.0"
 authors = ["Ebraheem AlAthari <alathari@pdx.edu>"]
 edition = "2018"
