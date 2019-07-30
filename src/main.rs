@@ -3,15 +3,13 @@
 // Please see the file LICENSE in the source
 // distribution of this software for license terms.
 mod screen;
+use std::process;
+//mod player;
 
 struct Point {
     x: u64,
     y: u64
 }
-
-use std::process;
-mod player;
-
 
 use crossterm_input::{input, InputEvent, KeyEvent, RawScreen};
 
@@ -108,14 +106,18 @@ pub fn read_synchronously() {
 }
 
 fn main() {
-    let print_screen: Vec<Vec<String>> = screen::create_game_box();
-
-    for i in 0..print_screen.len() {
-        for j in 0..print_screen[i].len() {
-            print!("{}",print_screen[i][j]);
-        }
-        println!();
-    }
+    let current_terminal_state: (usize, usize) = screen::get_terminal_size();
+    println!("{} {}",current_terminal_state.0, current_terminal_state.1);
+    // screen::create_game_box();
+    // screen::max_terminal_size();
+    // let print_screen: Vec<Vec<String>> = screen::create_game_box();
+    //
+    // for i in 0..print_screen.len() {
+    //     for j in 0..print_screen[i].len() {
+    //         print!("{}",print_screen[i][j]);
+    //     }
+    //     println!();
+    // }
 
     //player::setup_player();
     //read_synchronously();
