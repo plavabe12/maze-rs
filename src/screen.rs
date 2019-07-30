@@ -51,13 +51,22 @@ pub fn print_maze(maze: & Vec<Vec<String>>) {
 // Private Functions
 fn  build_box(terminal: &TerminalScreen) -> Vec<Vec<String>> {
     //Building a basic box for the maze
+    //Borrowed Unicode characters from https://github.com/boppreh/maze
     let mut new_box: Vec<Vec<String>> = vec![vec!['X'.to_string(); terminal.width]; terminal.height];
     for i in 0..new_box.len() {
         for j in 0..new_box[i].len() {
-            if i == 0usize || i == new_box.len() - 1usize  {
-                new_box[i][j] = '-'.to_string();
+            if i == 0 && j == 0 {
+                new_box[i][j] = '┌'.to_string();
+            } else if i == new_box.len() - 1usize && j == 0  {
+                new_box[i][j] = '└'.to_string();
+            } else if i == 0 && j == new_box[i].len() - 1usize {
+                new_box[i][j] = '┐'.to_string();
+            } else if i == new_box.len() - 1usize && j == new_box[i].len() - 1usize {
+                new_box[i][j] = '┘'.to_string();
+            } else if i == 0usize || i == new_box.len() - 1usize {
+                new_box[i][j] = '─'.to_string();
             } else if j == 0usize || j == new_box[i].len() - 1usize {
-                new_box[i][j] = '|'.to_string();
+                new_box[i][j] = '│'.to_string();
             }
         }
     }

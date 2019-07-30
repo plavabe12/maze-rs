@@ -19,7 +19,7 @@ fn main() {
 
     let new_game: Vec<Vec<String>> = screen::build_game_screen(&mut game_output);
     println!("{} {}", game_output.width, game_output.height);
-    screen::build_maze(&new_game, &game_output);
+    // screen::build_maze(&new_game, &game_output);
     screen::print_maze(&new_game);
     // loop {
     //     print_maze(&new_game);
