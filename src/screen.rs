@@ -1,34 +1,65 @@
+// Copyright © 2019 Ebraheem AlAthari
+// [This program is licensed under the "MIT License"]
+// Please see the file LICENSE in the source
+// distribution of this software for license terms.
+
+// Rust Declarations
 use terminal_size::{Width, Height, terminal_size};
 
-// struct TerminalScreen {
-//     width: usize,
-//     height: usize
-// }
+// Structs
+pub struct TerminalScreen {
+    pub width: usize,
+    pub height: usize
+}
 
-pub fn get_terminal_size() -> (usize,usize) {
+// Public Functions
+pub fn get_terminal_size() -> TerminalScreen {
+    // Get Terminal Size from the extern crate terminal_size
+    // Return correct size if it can determine terminal window
     if let Some((Width(w), Height(h))) = terminal_size() {
-        (w as usize, h as usize)
+        if w <= 9 || h <= 9 {
+            panic!("Terminal Screen too small, Please set it to atleast a 10 by 10 screen");
+        }
+        TerminalScreen { width: w as usize, height: h as usize }
     } else {
-        (0usize, 0usize)
+        panic!("Terminal Screen not detected");
     }
 }
 
-// fn get_terminal_size(new_terminal: &mut TerminalScreen) {
-//     let size = terminal_size();
-//     if let Some((Width(w), Height(h))) = size {
-//         new_terminal.width = w as usize - 2usize;
-//         new_terminal.height = h as usize - 2usize;
-//     }
-// }
+pub fn build_game_screen(mut terminal: &mut TerminalScreen) -> Vec<Vec<String>> {
+    //Adjust Terminal Window to fit game
+    terminal.width -= 2usize;
+    terminal.height -= 2usize;
 
-// fn build_game_screen(self) -> Vec<Vec<String>> {
-//     let terminal_width: Vec<String> = vec!['.'.to_string(); self.width];
-//     vec![terminal_width.clone(); self.height]
-// }
+    //Bulding the vector string
+    build_box(&terminal)
+}
 
-// pub fn create_game_box() /* -> Vec<Vec<String>> */  {
-//     let mut new_terminal: TerminalScreen = TerminalScreen { width: 0, height: 0};
-//     get_terminal_size(&mut new_terminal);
-//     println!("{} {}", new_terminal.height, new_terminal.width)
-//     //TerminalScreen::build_game_screen(new_terminal)
-// }
+pub fn build_maze(_maze: &Vec<Vec<String>>, _game_output: &TerminalScreen) {
+    unimplemented!()
+}
+
+pub fn print_maze(maze: & Vec<Vec<String>>) {
+    for i in 0..maze.len() {
+        for j in 0..maze[i].len() {
+            print!("{}",maze[i][j]);
+        }
+        println!();
+    }
+}
+
+// Private Functions
+fn  build_box(terminal: &TerminalScreen) -> Vec<Vec<String>> {
+    //Building a basic box for the maze
+    let mut new_box: Vec<Vec<String>> = vec![vec!['X'.to_string(); terminal.width]; terminal.height];
+    for i in 0..new_box.len() {
+        for j in 0..new_box[i].len() {
+            if i == 0usize || i == new_box.len() - 1usize  {
+                new_box[i][j] = '-'.to_string();
+            } else if j == 0usize || j == new_box[i].len() - 1usize {
+                new_box[i][j] = '|'.to_string();
+            }
+        }
+    }
+    new_box
+}
