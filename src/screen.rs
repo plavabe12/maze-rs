@@ -38,13 +38,13 @@ pub fn build_game_screen(mut terminal: &mut TerminalScreen) -> Vec<Vec<String>> 
 
 pub fn build_maze(maze: &mut std::vec::Vec<std::vec::Vec<std::string::String>>, game_output: &TerminalScreen) {
     // Computing Total Nodes using the game output and subtracting the sides
-    let mut total_nodes: u64 = ((game_output.height - 2usize) * (game_output.width - 2usize)) as u64;
+    //let mut total_nodes: u64 = ((game_output.height - 2usize) * (game_output.width - 2usize)) as u64;
 
     // Generate Starting Point
     // Min: (1,1)
     // Max: (game_output.height - 2usize,game_output.width - 2usize)
     let new_point: u64 = rand::thread_rng().gen_range(1, 4);
-    let mut point: (usize,usize) = match new_point {
+    let mut start_point: (usize,usize) = match new_point {
         1 => (game_output.height - 2usize, rand::thread_rng().gen_range(1, game_output.width - 2usize) as usize), // Bottom Start
         2 => (1usize,  rand::thread_rng().gen_range(1, game_output.width - 2usize) as usize), // Top Start
         3 => (rand::thread_rng().gen_range(1, game_output.height - 2usize) as usize, 1usize), // Right Start
@@ -52,58 +52,35 @@ pub fn build_maze(maze: &mut std::vec::Vec<std::vec::Vec<std::string::String>>, 
         _ => (0usize, 0usize) // Failed Start
     };
 
-    // println!("Point: {:?}",point);
-    //
-    // println!("{}", maze[point.0][point.1]);
+    //let start_point_copy: (usize,usize) = start_point.clone();
 
-    maze[point.0][point.1] = " ".to_string();
-    visited(maze, &mut total_nodes, &point);
+    maze[start_point.0][start_point.1] = " ".to_string();
+    visited(maze, &start_point);
 
     loop {
         match new_point {
             1 => {
-                point = (point.0 - 1usize, point.1);
-                if point.0 == 0usize { break }
+                start_point = (start_point.0 - 1usize, start_point.1);
+                if start_point.0 == 0usize { break }
             }, // Bottom Start
             2 => {
-                point = (point.0 + 1usize, point.1);
-                if point.0 == game_output.height - 1usize { break }
+                start_point = (start_point.0 + 1usize, start_point.1);
+                if start_point.0 == game_output.height - 1usize { break }
             }, // Top Start
             3 => {
-                point = (point.0, point.1 + 1usize);
-                if point.1 == game_output.width - 1usize { break }
+                start_point = (start_point.0, start_point.1 + 1usize);
+                if start_point.1 == game_output.width - 1usize { break }
             }, // Right Start
             4 => {
-                point = (point.0, point.1 - 1usize);
-                if point.1 == 0usize { break }
+                start_point = (start_point.0, start_point.1 - 1usize);
+                if start_point.1 == 0usize { break }
             }, // Left Start
             _ => () // Failed Start
         };
-        maze[point.0][point.1] = " ".to_string();
-        visited(maze, &mut total_nodes, &point);
+        maze[start_point.0][start_point.1] = " ".to_string();
+        visited(maze, &start_point);
+        //total_nodes -= 1;
     }
-
-    // loop {
-    //     if total_nodes == 0 {
-    //         break;
-    //     }
-    // }
-
-    // let mut total_nodes_lp: u64 = 0u64;
-    //
-    // for i in 0..game_output.height {
-    //     for j in 0..game_output.width {
-    //         let tester: &str = &maze[i][j];
-    //         match tester {
-    //             //"┌" | "└" | "┐" | "┘" | "─" | "│" => (),
-    //             "O" => total_nodes_lp += 1,
-    //             _ => ()
-    //         }
-    //     }
-    // }
-    // println!("Loop: {}", total_nodes_lp);
-    // println!("X: {}", total_nodes_gm);
-    // assert_eq!(total_nodes_lp,total_nodes_gm);
 }
 
 pub fn print_maze(maze: & Vec<Vec<String>>) {
@@ -140,42 +117,63 @@ fn  build_box(terminal: &TerminalScreen) -> Vec<Vec<String>> {
     new_box
 }
 
-fn visited(maze: &mut std::vec::Vec<std::vec::Vec<std::string::String>>, total_nodes: &mut u64, point: &(usize,usize)) {
+fn visited(maze: &mut std::vec::Vec<std::vec::Vec<std::string::String>>, point: &(usize,usize)) {
     let mut adjusted_point: (usize,usize) = point.clone();
-    println!("Point 1: {:?}", point);
-    let mut direction: u64 = 1u64;
-    while direction != 5 {
+    for direction in 0..4 {
         match direction {
-            1 => {
+            0 => {
                 adjusted_point = (adjusted_point.0 - 1usize, adjusted_point.1);
-                println!("ADJ 1: {:?}", adjusted_point);
-                marked_visted(maze, total_nodes, &adjusted_point)
+                marked_visted(maze, &adjusted_point)
+            },
+            1 => {
+                adjusted_point = (adjusted_point.0 + 1usize, adjusted_point.1);
+                marked_visted(maze, &adjusted_point)
             },
             2 => {
-                adjusted_point = (adjusted_point.0 + 1usize, adjusted_point.1);
-                println!("ADJ 2: {:?}", adjusted_point);
-                marked_visted(maze, total_nodes, &adjusted_point)
+                adjusted_point = (adjusted_point.0, adjusted_point.1 - 1usize);
+                marked_visted(maze, &adjusted_point)
             },
             3 => {
-                adjusted_point = (adjusted_point.0, adjusted_point.1 - 1usize);
-                println!("ADJ 3: {:?}", adjusted_point);
-                marked_visted(maze, total_nodes, &adjusted_point)
-            },
-            4 => {
                 adjusted_point = (adjusted_point.0, adjusted_point.1 + 1usize);
-                println!("ADJ 4: {:?}", adjusted_point);
-                marked_visted(maze, total_nodes, &adjusted_point)
+                marked_visted(maze, &adjusted_point)
             },
             _ => ()
         }
-        direction += 1;
         adjusted_point = point.clone();
     }
 }
 
-fn marked_visted(maze: &mut std::vec::Vec<std::vec::Vec<std::string::String>>, total_nodes: &mut u64, point: &(usize,usize)) {
+fn marked_visted(maze: &mut std::vec::Vec<std::vec::Vec<std::string::String>>, point: &(usize,usize)) {
     if maze[point.0][point.1] == "O" {
-        *total_nodes -= 1;
         maze[point.0][point.1] = "X".to_string()
     }
 }
+
+
+// fn create_lines(maze: &mut std::vec::Vec<std::vec::Vec<std::string::String>>, point: &(usize,usize),  game_output: &TerminalScreen) {
+//     unimplemented!()
+// }
+
+/*
+    // loop {
+    //     if total_nodes == 0 {
+    //         break;
+    //     }
+    // }
+
+    // let mut total_nodes_lp: u64 = 0u64;
+    //
+    // for i in 0..game_output.height {
+    //     for j in 0..game_output.width {
+    //         let tester: &str = &maze[i][j];
+    //         match tester {
+    //             //"┌" | "└" | "┐" | "┘" | "─" | "│" => (),
+    //             "O" => total_nodes_lp += 1,
+    //             _ => ()
+    //         }
+    //     }
+    // }
+    // println!("Loop: {}", total_nodes_lp);
+    // println!("X: {}", total_nodes_gm);
+    // assert_eq!(total_nodes_lp,total_nodes_gm);
+*/
