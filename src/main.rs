@@ -4,11 +4,13 @@
 // distribution of this software for license terms.
 
 // *** Rust Declarations ***
-mod screen;
 mod player;
+mod screen;
+mod welcome;
 
 // *** Functions ***
 fn main() {
+    welcome::welcome_msg();
     let mut game_output: screen::TerminalScreen = screen::get_terminal_size();
     let default_maze: Vec<Vec<String>> = screen::build_game_screen(&mut game_output);
 
