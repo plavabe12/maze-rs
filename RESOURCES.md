@@ -11,3 +11,5 @@
 * https://stackoverflow.com/questions/26388861/how-to-include-module-from-another-file-from-the-same-project
 * https://stackoverflow.com/questions/52454677/how-to-generate-a-random-rust-integer-in-a-range-without-introducing-bias
 * https://www.algosome.com/articles/maze-generation-depth-first.html
+* https://doc.rust-lang.org/std/thread/fn.sleep.html
+* https://doc.rust-lang.org/std/process/fn.exit.html

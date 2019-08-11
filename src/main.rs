@@ -3,21 +3,19 @@
 // Please see the file LICENSE in the source
 // distribution of this software for license terms.
 
-// Rust Declarations
+// *** Rust Declarations ***
 mod screen;
+mod player;
 
-// Structs
-
-// Implementations
-
-// Functions
+// *** Functions ***
 fn main() {
     let mut game_output: screen::TerminalScreen = screen::get_terminal_size();
+    let default_maze: Vec<Vec<String>> = screen::build_game_screen(&mut game_output);
 
-    let mut new_game: Vec<Vec<String>> = screen::build_game_screen(&mut game_output);
-    screen::build_maze(&mut new_game, &game_output);
-    screen::print_maze(&new_game);
-    // loop {
-    //     print_maze(&new_game);
-    // }
+    loop {
+        println!("Generating New Maze");
+        let mut new_game: Vec<Vec<String>> = default_maze.clone();
+        screen::build_maze(&mut new_game, &game_output);
+        player::play_game(&mut new_game, &game_output);
+    }
 }
