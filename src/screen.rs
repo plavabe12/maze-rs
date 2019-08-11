@@ -200,3 +200,61 @@ fn find_similar_value(points: &[usize], point: usize) -> bool {
     //Checks if the point exists in the list
     points.contains(&(point - 1)) || points.contains(&(point + 1)) || points.contains(&point)
 }
+
+#[cfg(test)]
+mod tests {
+    use crate::screen::*;
+    #[test]
+    fn test_build_game_screen() {
+        let result: Vec<Vec<String>> = build_game_screen(&mut TerminalScreen {
+            width: 5,
+            height: 5,
+        });
+        let mut expected: Vec<Vec<String>> = Vec::new();
+        expected.push(vec![
+            "┌".to_string(),
+            "─".to_string(),
+            "┐".to_string(),
+        ]);
+        expected.push(vec!["│".to_string(), "O".to_string(), "│".to_string()]);
+        expected.push(vec![
+            "└".to_string(),
+            "─".to_string(),
+            "┘".to_string(),
+        ]);
+        assert_eq!(expected, result)
+    }
+
+    #[test]
+    fn test_visted() {
+        let mut result: Vec<Vec<String>> = vec![vec!['O'.to_string(); 3]; 3];
+        visited(&mut result, &(1usize, 1usize));
+        let mut expected: Vec<Vec<String>> = Vec::new();
+        expected.push(vec!["O".to_string(), "X".to_string(), "O".to_string()]);
+        expected.push(vec!["X".to_string(), "O".to_string(), "X".to_string()]);
+        expected.push(vec!["O".to_string(), "X".to_string(), "O".to_string()]);
+        assert_eq!(expected, result)
+    }
+
+    #[test]
+    fn test_clean_maze() {
+        let mut result: Vec<Vec<String>> = vec![vec!['O'.to_string(); 3]; 3];
+        let expected: Vec<Vec<String>> = vec![vec![' '.to_string(); 3]; 3];
+        clean_maze(&mut result);
+        assert_eq!(expected, result)
+    }
+
+    #[test]
+    fn test_find_similar_value() {
+        let result: Vec<usize> = vec![1usize; 3usize];
+        assert_eq!(find_similar_value(&result, 1usize), true)
+    }
+
+    #[test]
+    fn test_replace_string() {
+        let mut result: Vec<Vec<String>> = vec![vec!['O'.to_string(); 3]; 3];
+        let expected: Vec<Vec<String>> = vec![vec![' '.to_string(); 3]; 3];
+        replace_string(&mut result, 'O'.to_string(), ' '.to_string());
+        assert_eq!(expected, result)
+    }
+}

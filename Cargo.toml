@@ -8,6 +8,7 @@ name = "maze_rs"
 version = "0.1.0"
 authors = ["Ebraheem AlAthari <alathari@pdx.edu>"]
 edition = "2018"
+publish = false
 
 [dependencies]
 crossterm_input = "0.3.6"
