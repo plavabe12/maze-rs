@@ -1,4 +1,4 @@
-# Copyright © 2019 Ebraheem AlAthari
+# Copyright © 2019 - 2023 Ebraheem AlAthari
 # [This program is licensed under the "MIT License"]
 # Please see the file LICENSE in the source
 # distribution of this software for license terms.
@@ -7,11 +7,9 @@
 name = "maze_rs"
 version = "0.1.0"
 authors = ["Ebraheem AlAthari <alathari@pdx.edu>"]
-edition = "2018"
+edition = "2021"
 publish = false
 
 [dependencies]
-crossterm_input = "0.3.6"
-crossterm_screen = "0.2.3"
-terminal_size = "0.1.8"
-rand = "0.7.0"
+bevy = { version = "0.10.1" , features = ["wayland"] }
+rand = "0.8.5"
